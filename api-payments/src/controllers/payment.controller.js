@@ -27,6 +27,20 @@ const paymentController = {
       return res.status(500).json({ error: error.message });
     }
   },
+  findByOrderId: async (req, res) => {
+    try {
+      const { orderId } = req.params;
+      const payment = await paymentService.findByOrderId(orderId);
+
+      if (!payment) {
+        return res.status(404).json({ error: "Pagamento não encontrado" });
+      }
+
+      return res.status(200).json(payment);
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
+    }
+  },
 };
 
 module.exports = paymentController;

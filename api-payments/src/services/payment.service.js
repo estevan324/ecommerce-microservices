@@ -34,6 +34,19 @@ const paymentService = {
 
     return new PaymentResponseDTO(payment);
   },
+  findByOrderId: async (orderId) => {
+    const payment = await Payment.findOne({
+      where: {
+        orderId,
+      },
+    });
+
+    if (!payment) {
+      return null;
+    }
+
+    return new PaymentResponseDTO(payment);
+  },
 };
 
 module.exports = paymentService;
