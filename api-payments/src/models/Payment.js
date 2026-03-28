@@ -6,6 +6,11 @@ const PAYMENT_STATUS = require("../enums/payment-status.enum");
 const Payment = sequelize.define(
   "Payment",
   {
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true,
+    },
     orderId: {
       type: DataTypes.UUID,
       allowNull: false,
