@@ -1,6 +1,5 @@
 class PaymentResponseDTO {
   constructor(payment) {
-    this.id = payment.id;
     this.description = payment.description;
     this.amount = payment.amount;
     this.paymentMethod = payment.paymentMethod;

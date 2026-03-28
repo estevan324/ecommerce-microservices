@@ -6,10 +6,10 @@ const PAYMENT_STATUS = require("../enums/payment-status.enum");
 const Payment = sequelize.define(
   "Payment",
   {
-    id: {
+    orderId: {
       type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      primaryKey: true,
+      allowNull: false,
+      unique: true,
     },
     description: {
       type: DataTypes.STRING,
@@ -25,11 +25,6 @@ const Payment = sequelize.define(
     },
     status: {
       type: DataTypes.ENUM(...Object.values(PAYMENT_STATUS)),
-      defaultValue: PAYMENT_STATUS.PENDING,
-      allowNull: false,
-    },
-    orderId: {
-      type: DataTypes.UUID,
       allowNull: false,
     },
     createdAt: {

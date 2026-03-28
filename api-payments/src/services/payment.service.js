@@ -23,11 +23,11 @@ const paymentService = {
     }
 
     const payment = new Payment({
+      orderId: paymentDTO.orderId,
       description: paymentDTO.description,
       amount: paymentDTO.amount,
       paymentMethod: paymentDTO.paymentMethod,
       status,
-      orderId: paymentDTO.orderId,
     });
 
     await payment.save();
