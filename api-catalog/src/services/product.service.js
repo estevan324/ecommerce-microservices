@@ -33,6 +33,35 @@ const productService = {
       throw err;
     }
   },
+  getAll: async () => {
+    const products = await ProductModel.findAll();
+
+    const result = await Promise.all(
+      products.map(async (product) => {
+        const inventory = await axios.get(
+          `${process.env.INVENTORY_API_URL}/inventories/${product.id}`,
+        );
+
+        return new ProductResponseDTO({
+          ...product.toJSON(),
+          quantity: inventory.data.quantity,
+        });
+      }),
+    );
+
+    return result;
+  },
+  findById: async (id) => {
+    const product = await ProductModel.findByPk(id);
+    const inventory = await axios.get(
+      `${process.env.INVENTORY_API_URL}/inventories/${id}`,
+    );
+
+    return new ProductResponseDTO({
+      ...product.toJSON(),
+      quantity: inventory.data.quantity,
+    });
+  },
 };
 
 module.exports = productService;

@@ -20,6 +20,23 @@ const productController = {
       return res.status(500).json({ error: err.message });
     }
   },
+  getAll: async (req, res) => {
+    try {
+      const products = await productService.getAll();
+
+      return res.status(200).json(products);
+    } catch (err) {
+      return res.status(500).json({ error: err.message });
+    }
+  },
+  findById: async (req, res) => {
+    try {
+      const product = await productService.findById(req.params.id);
+      return res.status(200).json(product);
+    } catch (err) {
+      return res.status(500).json({ error: err.message });
+    }
+  },
 };
 
 module.exports = productController;
