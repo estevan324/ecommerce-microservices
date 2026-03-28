@@ -3,7 +3,7 @@ class ProductResponseDTO {
     this.id = id;
     this.name = name;
     this.description = description;
-    this.price = price;
+    this.price = parseFloat(price);
     this.quantity = quantity;
     this.createdAt = createdAt;
   }
