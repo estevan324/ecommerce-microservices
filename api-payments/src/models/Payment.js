@@ -1,19 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
-
-const PAYMENT_STATUS = {
-  PENDING: "PENDING",
-  APPROVED: "APPROVED",
-  REJECT: "REJECT",
-};
-
-const PAYMENT_METHOD = {
-  CARTAO_CREDITO: "CARTAO_CREDITO",
-  CARTAO_DEBITO: "CARTAO_DEBITO",
-  DINHEIRO: "DINHEIRO",
-  BOLETO: "BOLETO",
-  PIX: "PIX",
-};
+const PAYMENT_METHOD = require("../enums/payment-method.enum");
+const PAYMENT_STATUS = require("../enums/payment-status.enum");
 
 const Payment = sequelize.define(
   "Payment",
