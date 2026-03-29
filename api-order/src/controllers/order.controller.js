@@ -5,13 +5,22 @@ const { createOrderSchema } = require("../schemas/order.schema");
 const orderController = {
   create: async (req, res) => {
     try {
-      const { error } = createOrderSchema.validate(req.body);
+      const userId = req.userId;
+
+      const { error } = createOrderSchema.validate({
+        ...req.body,
+        userId,
+      });
 
       if (error) {
         return res.status(400).json({ error: error.details[0].message });
       }
 
-      const orderRequest = new CreateOrderDTO(req.body);
+      const orderRequest = new CreateOrderDTO({
+        ...req.body,
+        userId,
+      });
+
       const order = await orderService.create(orderRequest);
 
       return res.status(200).json(order);

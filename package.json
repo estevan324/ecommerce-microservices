@@ -1,0 +1,29 @@
+{
+  "name": "ecommerce-microservices",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:gateway": "cd api-gateway && npm start",
+    "start:app1": "cd api-catalog && npm start",
+    "start:app2": "cd api-inventory && npm start",
+    "start:app3": "cd api-payments && npm start",
+    "start:app4": "cd api-order && npm start",
+    "start:app5": "cd api-user && npm start",
+    "start": "concurrently \"npm run start:gateway\" \"npm run start:app1\" \"npm run start:app2\" \"npm run start:app3\" \"npm run start:app4\" \"npm run start:app5\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/estevan324/ecommerce-microservices.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/estevan324/ecommerce-microservices/issues"
+  },
+  "homepage": "https://github.com/estevan324/ecommerce-microservices#readme",
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}

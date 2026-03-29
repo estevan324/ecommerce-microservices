@@ -2,6 +2,7 @@ const express = require("express");
 const sequelize = require("./config/database");
 const { Router } = require("express");
 const orderRoutes = require("./routes/order.routes");
+const authMiddleware = require("./middlewares/auth.middleware");
 
 require("./models/Order");
 require("./models/OrderItem");
@@ -11,7 +12,7 @@ app.use(express.json());
 
 const router = Router();
 
-router.use("/orders", orderRoutes);
+router.use("/orders", authMiddleware, orderRoutes);
 
 app.use(router);
 

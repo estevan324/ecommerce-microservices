@@ -2,6 +2,7 @@ const OrderItemResponseDTO = require("./order-item-response.dto");
 
 class OrderResponseDTO {
   constructor(order, items) {
+    this.id = order.id;
     this.paymentMethod = order.paymentMethod;
     this.products = items.map((item) => new OrderItemResponseDTO(item));
     this.paymentStatus = order.paymentStatus;
