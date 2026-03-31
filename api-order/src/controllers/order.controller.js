@@ -23,14 +23,20 @@ const orderController = {
 
       const order = await orderService.create(orderRequest);
 
-      return res.status(200).json(order);
+      return res.status(201).json(order);
     } catch (error) {
+      console.error("Erro ao criar pedido:", error.message);
+
       if (error.message.includes("não encontrado")) {
         return res.status(404).json({ error: error.message });
       }
 
       if (error.message.includes("não tem quantidade disponível")) {
         return res.status(400).json({ error: error.message });
+      }
+
+      if (error.message.includes("Erro ao processar pagamento")) {
+        return res.status(402).json({ error: "Falha no processamento de pagamento" });
       }
 
       return res.status(500).json({ error: error.message });

@@ -2,6 +2,8 @@ const Order = require("../models/Order");
 const OrderItem = require("../models/OrderItem");
 const OrderResponseDTO = require("../dtos/order-response.dto");
 const productService = require("./product.service");
+const paymentClient = require("../clients/payment.client");
+const inventoryClient = require("../clients/inventory.client");
 const PAYMENT_STATUS = require("../enums/payment-status.enum");
 
 const orderService = {
@@ -42,7 +44,6 @@ const orderService = {
         totalPrice: itemTotal,
       });
     }
-
     const order = await Order.create({
       userId: orderDTO.userId,
       paymentMethod: orderDTO.paymentMethod,
@@ -58,6 +59,42 @@ const orderService = {
         })
       )
     );
+
+    try {
+      const paymentResult = await paymentClient.pay({
+        orderId: order.id,
+        amount: totalAmount,
+        paymentMethod: orderDTO.paymentMethod,
+        description: `Pagamento de pedido ${order.id}`,
+      });
+
+      let finalPaymentStatus = PAYMENT_STATUS.REJECTED;
+
+      if (paymentResult.status === PAYMENT_STATUS.APPROVED) {
+        finalPaymentStatus = PAYMENT_STATUS.APPROVED;
+
+        try {
+          for (const item of items) {
+            await inventoryClient.decrementStock(
+              item.productId,
+              item.quantity,
+              item.productName
+            );
+          }
+        } catch (inventoryError) {
+          throw new Error(`Erro ao atualizar estoque: ${inventoryError.message}`);
+        }
+      } else {
+        throw new Error(`Pagamento rejeitado: ${paymentResult.reason || "Motivo desconhecido"}`);
+      }
+
+      order.paymentStatus = finalPaymentStatus;
+      await order.save();
+    } catch (paymentError) {
+      order.paymentStatus = PAYMENT_STATUS.REJECTED;
+      await order.save();
+      throw paymentError;
+    }
 
     return new OrderResponseDTO(order, items);
   },
@@ -78,19 +115,6 @@ const orderService = {
     }
 
     return new OrderResponseDTO(order, order.items);
-  },
-
-  updatePaymentStatus: async (orderId, paymentStatus) => {
-    const order = await Order.findByPk(orderId);
-
-    if (!order) {
-      return null;
-    }
-
-    order.paymentStatus = paymentStatus;
-    await order.save();
-
-    return order;
   },
 };
 

@@ -30,6 +30,8 @@ const inventoryService = {
       return await Inventory.create(inventoryDTO);
     }
 
+    inventoryDTO.quantity = inventory.quantity - inventoryDTO.quantity;
+
     await Inventory.update(inventoryDTO, {
       where: {
         productId: inventoryDTO.productId,
