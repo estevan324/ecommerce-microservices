@@ -13,6 +13,10 @@ const inventoryService = {
       },
     });
 
+    if (!inventory) {
+      return null;
+    }
+
     return new InventoryResponse(inventory);
   },
   /**

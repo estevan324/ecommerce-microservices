@@ -53,6 +53,11 @@ const productService = {
   },
   findById: async (id) => {
     const product = await ProductModel.findByPk(id);
+
+    if (!product) {
+      return null;
+    }
+
     const inventory = await axios.get(
       `${process.env.INVENTORY_API_URL}/inventories/${id}`,
     );
