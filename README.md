@@ -56,6 +56,15 @@ Esse comando irá:
 - Realizar configurações automáticas necessárias
 - Criar tabelas no banco de dados (caso ainda não existam)
 
+## 🚪 Portas de Execução
+
+- `api-gateway`: Porta 3000
+- `api-payments`: Porta 3001
+- `api-inventory`: Porta 3002
+- `api-catalog`: Porta 3003
+- `api-user`: Porta 3004
+- `api-order`: Porta 3005
+
 ### 💡 Observação
 
 Certifique-se de que o banco de dados já foi criado previamente utilizando o script `databases.sql` antes de executar a aplicação.
