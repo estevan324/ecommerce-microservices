@@ -56,14 +56,14 @@ Esse comando irá:
 - Realizar configurações automáticas necessárias
 - Criar tabelas no banco de dados (caso ainda não existam)
 
-## 🚪 Portas de Execução
+## ⚙️ Aplicações
 
-- `api-gateway`: Porta 3000
-- `api-payments`: Porta 3001
-- `api-inventory`: Porta 3002
-- `api-catalog`: Porta 3003
-- `api-user`: Porta 3004
-- `api-order`: Porta 3005
+- `api-gateway` (Porta 3000): Responsável por expor os endpoints de serviços utilizados para os clientes, permitindo apenas o acesso de endpoints de acesso público.
+- `api-payments` (Porta 3001): Responsável por processar pagamentos.
+- `api-inventory` (Porta 3002): Responsável por gerenciar o estoque.
+- `api-catalog` (Porta 3003): Responsável por expor os produtos.
+- `api-user` (Porta 3004): Responsável por gerenciar os usuários.
+- `api-order` (Porta 3005): Responsável por gerenciar os pedidos.
 
 ### 💡 Observação
 
