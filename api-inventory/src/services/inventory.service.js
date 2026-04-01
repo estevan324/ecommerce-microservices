@@ -34,18 +34,37 @@ const inventoryService = {
       return await Inventory.create(inventoryDTO);
     }
 
-    inventoryDTO.quantity = inventory.quantity - inventoryDTO.quantity;
+    let newQuantity = inventory.quantity;
 
-    await Inventory.update(inventoryDTO, {
-      where: {
-        productId: inventoryDTO.productId,
+    if (inventoryDTO.type === "IN") {
+      newQuantity += inventoryDTO.quantity;
+    } else if (inventoryDTO.type === "OUT") {
+      if (inventoryDTO.quantity > inventory.quantity) {
+        return {
+          error: "Quantidade insuficiente em estoque",
+          status: 400,
+        };
+      }
+
+      newQuantity -= inventoryDTO.quantity;
+    }
+
+    await Inventory.update(
+      {
+        ...inventoryDTO,
+        quantity: newQuantity,
       },
-    });
+      {
+        where: {
+          productId: inventoryDTO.productId,
+        },
+      },
+    );
 
     return new InventoryResponse({
       productId: inventoryDTO.productId,
       productName: inventoryDTO.productName,
-      quantity: inventoryDTO.quantity,
+      quantity: newQuantity,
       createdAt: inventory.createdAt,
       updatedAt: inventory.updatedAt,
     });

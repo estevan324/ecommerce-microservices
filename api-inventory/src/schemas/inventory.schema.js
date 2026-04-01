@@ -14,6 +14,7 @@ const inventorySchema = Joi.object({
     "number.min": "A quantidade inicial deve ser maior ou igual a zero",
     "any.required": "A quantidade é obrigatória",
   }),
+  type: Joi.string().valid("IN", "OUT").default("IN"),
 });
 
 module.exports = inventorySchema;

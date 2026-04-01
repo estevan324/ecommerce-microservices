@@ -26,9 +26,13 @@ const inventoryController = {
 
       const request = new SaveInventoryDTO(req.body);
 
-      const inventory = await inventoryService.save(request);
+      const result = await inventoryService.save(request);
 
-      return res.status(200).json(inventory);
+      if (result.error) {
+        return res.status(result.status).json({ error: result.error });
+      }
+
+      return res.status(200).json(result);
     } catch (err) {
       return res.status(500).json({ error: err.message });
     }
